@@ -25,6 +25,7 @@ class CreateChessBoard {
     this.addKnights();
     this.addQueens();
   }
+
   addPawns() {
     for (let position = 9; position <= 16; position++) {
       this.pieces[`pawnB${position - 8}`] = {
@@ -74,16 +75,33 @@ class CreateChessBoard {
     this.pieces["kingW"] = { type: "king", color: "white", position: 61 };
   }
 
-  print() {
-    console.log(this.board, this.pieces);
+  getBoard() {
+    return this.board;
+  }
+
+  getPieces() {
+    return this.pieces;
   }
 }
+
+const boardView = (board) => {
+  const boardData = board.getBoard();
+  for (const box in boardData) {
+    console.log(boardData[box]);
+    const div = document.createElement("div");
+    const boardDiv = document.getElementById("chess-board");
+    div.style = `background-color:${boardData[box].color};`;
+    div.classList.add("boxes");
+    boardDiv.appendChild(div);
+  }
+};
 
 const main = () => {
   const board = new CreateChessBoard();
   board.bluePrint();
   board.addPieces();
-  board.print();
 };
 
-main();
+window.onload = () => {
+  main();
+};
